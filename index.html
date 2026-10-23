@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>الغرزة — ماكينات خياطة جديدة وقطع غيار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b1f3b; --paper:#faf8f5; --card:#ffffff; --muted:#5d6180; --line:#d9d5cc;
+  --thread:#d7263d; --brass:#b98a12; --steel:#eceff4; --on-ink:#faf8f5;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--ink:#faf8f5;--paper:#14162b;--card:#1d2040;--muted:#a7abc9;--line:#34385f;--steel:#23274a;--on-ink:#14162b;--thread:#ff5468;--brass:#e0b43c}
+}
+:root[data-theme="dark"]{--ink:#faf8f5;--paper:#14162b;--card:#1d2040;--muted:#a7abc9;--line:#34385f;--steel:#23274a;--on-ink:#14162b;--thread:#ff5468;--brass:#e0b43c}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Cairo',Tahoma,Arial,sans-serif;line-height:1.7}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.stitch{border-top:2px dashed var(--thread);opacity:.7}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:24px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px}
+.logo i{width:34px;height:34px;border-radius:50%;background:var(--thread);display:grid;place-items:center}
+.logo i:after{content:"";width:12px;height:12px;border-radius:50%;background:var(--paper)}
+nav{display:flex;gap:22px;margin-inline-start:auto;font-weight:600}
+nav a{color:var(--muted)} nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:inherit;font-weight:800;padding:12px 24px;border-radius:999px;background:var(--thread);color:#fff}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+.burger{display:none;margin-inline-start:auto;background:none;border:1px solid var(--line);border-radius:10px;width:44px;height:44px;font-size:22px;color:var(--ink);cursor:pointer}
+.hero{padding:64px 0 40px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.tag{display:inline-block;background:var(--steel);padding:4px 14px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
+h1{font-size:clamp(34px,5.4vw,62px);line-height:1.2;font-weight:800;margin:16px 0}
+h1 span{display:block;color:var(--thread)}
+.lead{font-size:18px;color:var(--muted);max-width:480px;margin:0 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:flex;gap:32px;margin-top:36px;padding-top:20px;border-top:2px dashed var(--line)}
+.stats b{display:block;font-size:26px}.stats small{color:var(--muted)}
+.art{position:relative;background:var(--ink);border-radius:28px;padding:30px;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
+.art svg{width:100%;height:auto;max-height:100%}
+.art .badge{position:absolute;top:18px;inset-inline-start:18px;background:var(--brass);color:#14162b;font-weight:800;padding:6px 14px;border-radius:999px;font-size:14px}
+section{padding:64px 0}
+h2{font-size:clamp(26px,3.6vw,38px);margin:0 0 8px;font-weight:800}
+.sub{color:var(--muted);margin:0 0 32px}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cat{background:var(--ink);color:var(--on-ink);border-radius:20px;padding:28px;min-height:190px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;transition:transform .2s}
+.cat:hover{transform:translateY(-4px)}
+.cat .ic{position:absolute;top:18px;inset-inline-end:20px;font-size:54px;opacity:.9}
+.cat h3{margin:0;font-size:22px}.cat p{margin:4px 0 0;opacity:.75;font-size:15px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.tabs button{font:inherit;font-weight:600;padding:8px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.p{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.p .img{background:var(--steel);height:190px;display:grid;place-items:center;font-size:76px;position:relative}
+.p .new{position:absolute;top:12px;inset-inline-start:12px;background:var(--thread);color:#fff;font-size:12px;font-weight:800;padding:2px 10px;border-radius:999px}
+.p .body{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.p h3{margin:0;font-size:18px}.p small{color:var(--muted)}
+.p .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:14px;border-top:2px dashed var(--line)}
+.price{font-weight:800;font-size:20px}.price s{color:var(--muted);font-weight:400;font-size:14px;margin-inline-start:6px}
+.p .btn{padding:8px 16px;font-size:14px}
+.p[hidden]{display:none}
+.finder{background:var(--ink);color:var(--on-ink);border-radius:28px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.finder h2{color:var(--on-ink)}.finder p{opacity:.8;margin:0}
+.form{display:grid;gap:12px}
+select,input{font:inherit;padding:14px 16px;border-radius:12px;border:0;background:var(--paper);color:var(--ink);width:100%}
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.why div{padding:22px;border-radius:18px;border:2px dashed var(--line)}
+.why span{font-size:32px}.why h3{margin:8px 0 4px;font-size:18px}.why p{margin:0;color:var(--muted);font-size:15px}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px}
+.box h3{margin:0 0 12px}.box p{margin:6px 0;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wa{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);inset-inline-start:18px;width:56px;height:56px;border-radius:50%;background:#1fa855;color:#fff;display:grid;place-items:center;font-size:28px;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:30}
+@media (max-width:900px){
+  .hero .wrap,.finder,.contact{grid-template-columns:1fr}
+  .cats,.grid{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr 1fr}
+  .art{max-width:420px;margin:0 auto;width:100%}
+  .burger{display:block}
+  nav{display:none;position:absolute;top:68px;inset-inline:0;background:var(--paper);flex-direction:column;padding:16px 20px;border-bottom:1px solid var(--line);gap:14px}
+  nav.open{display:flex}
+  .bar .btn.top{display:none}
+}
+@media (max-width:560px){
+  .cats,.grid,.why{grid-template-columns:1fr}
+  .hero{padding-top:36px}.stats{gap:20px}.finder{padding:28px 22px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top"><i></i>الغرزة</a>
+    <button class="burger" id="burger" aria-label="القائمة" aria-expanded="false">☰</button>
+    <nav id="nav">
+      <a href="#cats">الأقسام</a><a href="#products">المنتجات</a><a href="#parts">قطع الغيار</a><a href="#why">ليه الغرزة</a><a href="#contact">تواصل معنا</a>
+    </nav>
+    <a class="btn top" href="https://wa.me/201000000000">اطلب واتساب</a>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero"><div class="wrap">
+  <div>
+    <span class="tag">ماكينات جديدة بالكرتونة وضمان</span>
+    <h1>ماكينات خياطة جديدة <span>وقطع غيار أصلية</span></h1>
+    <p class="lead">للبيت والورشة والمصنع. نوفرلك الماكينة المناسبة وقطع الغيار اللي تحتاجها، مع توصيل لكل المحافظات.</p>
+    <div class="cta"><a class="btn" href="#products">تصفح المنتجات</a><a class="btn alt" href="#parts">دوّر على قطعة غيار</a></div>
+    <div class="stats">
+      <div><b>+500</b><small>منتج متاح</small></div>
+      <div><b>سنة</b><small>ضمان على الماكينات</small></div>
+      <div><b>24 ساعة</b><small>تجهيز الطلب</small></div>
+    </div>
+  </div>
+  <div class="art" aria-hidden="true">
+    <span class="badge">وصل حديثاً</span>
+    <svg viewBox="0 0 400 340" fill="none">
+      <rect x="40" y="270" width="320" height="20" rx="8" fill="#faf8f5" opacity=".15"/>
+      <path d="M60 270V150q0-50 60-50h190q40 0 40 40v30h-60v20h-70v90z" fill="#faf8f5"/>
+      <rect x="290" y="130" width="50" height="140" rx="10" fill="#d7263d"/>
+      <circle cx="315" cy="105" r="26" fill="#b98a12"/><circle cx="315" cy="105" r="10" fill="#1b1f3b"/>
+      <rect x="140" y="125" width="90" height="12" rx="6" fill="#1b1f3b" opacity=".25"/>
+      <rect x="103" y="215" width="150" height="55" rx="10" fill="#1b1f3b" opacity=".12"/>
+      <path d="M330 130v110" stroke="#1b1f3b" stroke-width="3"/>
+      <path d="M300 160v100" stroke="#faf8f5" stroke-width="2" stroke-dasharray="5 6" opacity=".7"/>
+      <path d="M20 310h360" stroke="#d7263d" stroke-width="3" stroke-dasharray="10 8"/>
+    </svg>
+  </div>
+</div></div>
+
+<div class="wrap"><div class="stitch"></div></div>
+
+<section id="cats"><div class="wrap">
+  <h2>اختار القسم</h2><p class="sub">كل اللي محتاجه لشغل الخياطة في مكان واحد.</p>
+  <div class="cats">
+    <a class="cat" href="#products" data-go="home"><span class="ic">🧵</span><h3>ماكينات منزلية</h3><p>سهلة ومناسبة للبيت والتعلم</p></a>
+    <a class="cat" href="#products" data-go="industrial"><span class="ic">🏭</span><h3>ماكينات صناعية</h3><p>للورش والمصانع والشغل المستمر</p></a>
+    <a class="cat" href="#parts"><span class="ic">⚙️</span><h3>قطع غيار</h3><p>إبر، مكوك، سيور، موتورات</p></a>
+  </div>
+</div></section>
+
+<section id="products" style="padding-top:0"><div class="wrap">
+  <h2>أحدث المنتجات</h2><p class="sub">الأسعار توضيحية وهتتعدل بأسعارك الحقيقية.</p>
+  <div class="tabs" id="tabs">
+    <button aria-pressed="true" data-f="all">الكل</button>
+    <button aria-pressed="false" data-f="home">منزلية</button>
+    <button aria-pressed="false" data-f="industrial">صناعية</button>
+    <button aria-pressed="false" data-f="parts">قطع غيار</button>
+  </div>
+  <div class="grid">
+    <article class="p" data-c="home"><div class="img">🪡<span class="new">جديد</span></div><div class="body"><h3>ماكينة خياطة منزلية 12 غرزة</h3><small>ضمان سنة · كرتونة مقفولة</small><div class="row"><span class="price">4,500 ج</span><a class="btn" href="https://wa.me/201000000000">اطلب</a></div></div></article>
+    <article class="p" data-c="home"><div class="img">🧵<span class="new">جديد</span></div><div class="body"><h3>ماكينة خياطة أوفرلوك</h3><small>4 خيوط · للتشطيب</small><div class="row"><span class="price">7,200 ج</span><a class="btn" href="https://wa.me/201000000000">اطلب</a></div></div></article>
+    <article class="p" data-c="industrial"><div class="img">🏭<span class="new">جديد</span></div><div class="body"><h3>ماكينة صناعية سنجر مستقيمة</h3><small>موتور سيرفو · هادية</small><div class="row"><span class="price">12,800 ج<s>14,000</s></span><a class="btn" href="https://wa.me/201000000000">اطلب</a></div></div></article>
+    <article class="p" data-c="industrial"><div class="img">⚡</div><div class="body"><h3>ماكينة رأسين للتطريز</h3><small>للإنتاج الكبير</small><div class="row"><span class="price">48,000 ج</span><a class="btn" href="https://wa.me/201000000000">اطلب</a></div></div></article>
+    <article class="p" data-c="parts"><div class="img">📍</div><div class="body"><h3>علبة إبر خياطة (10 قطع)</h3><small>مقاسات 11 / 14 / 16</small><div class="row"><span class="price">85 ج</span><a class="btn" href="https://wa.me/201000000000">اطلب</a></div></div></article>
+    <article class="p" data-c="parts"><div class="img">⚙️</div><div class="body"><h3>مكوك وبوبينة</h3><small>متوافق مع معظم الأنواع</small><div class="row"><span class="price">180 ج</span><a class="btn" href="https://wa.me/201000000000">اطلب</a></div></div></article>
+  </div>
+</div></section>
+
+<section id="parts"><div class="wrap">
+  <div class="finder">
+    <div><h2>مش لاقي القطعة؟</h2><p>اختار نوع الماكينة وقولنا القطعة، وهنرد عليك بالسعر والتوفر على واتساب.</p></div>
+    <div class="form">
+      <select id="type" aria-label="نوع الماكينة"><option>منزلية</option><option>صناعية مستقيمة</option><option>أوفرلوك</option><option>أخرى</option></select>
+      <input id="part" placeholder="اسم القطعة أو موديل الماكينة" aria-label="اسم القطعة">
+      <button class="btn" id="ask">ابعت الاستفسار</button>
+    </div>
+  </div>
+</div></section>
+
+<section id="why" style="padding-top:0"><div class="wrap">
+  <h2>ليه الغرزة</h2><p class="sub">بنبيع اللي نثق فيه ونضمنه.</p>
+  <div class="why">
+    <div><span>✅</span><h3>منتجات أصلية</h3><p>ماكينات جديدة ومضمونة بفاتورة.</p></div>
+    <div><span>🚚</span><h3>توصيل سريع</h3><p>شحن لكل المحافظات.</p></div>
+    <div><span>🛠️</span><h3>صيانة وضمان</h3><p>دعم بعد البيع وقطع غيار متوفرة.</p></div>
+    <div><span>💬</span><h3>استشارة مجانية</h3><p>نساعدك تختار الماكينة المناسبة.</p></div>
+  </div>
+</div></section>
+
+<section id="contact" style="padding-top:0"><div class="wrap">
+  <h2>تواصل معنا</h2><p class="sub">ابعتلنا على واتساب أو تعالى المعرض.</p>
+  <div class="contact">
+    <div class="box"><h3>بيانات التواصل</h3><p>📞 01000000000</p><p>📍 العنوان: اكتب عنوان المحل هنا</p><p>🕘 كل يوم من 10 ص إلى 9 م</p><a class="btn" style="margin-top:14px" href="https://wa.me/201000000000">كلمنا على واتساب</a></div>
+    <div class="box"><h3>ابعتلنا رسالة</h3><div class="form"><input id="nm" placeholder="الاسم" aria-label="الاسم"><input id="msg" placeholder="اكتب طلبك" aria-label="رسالتك"><button class="btn" id="send">ابعت</button></div></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 الغرزة للماكينات وقطع الغيار</span><span>جميع الحقوق محفوظة</span></div></footer>
+<a class="wa" href="https://wa.me/201000000000" aria-label="واتساب">💬</a>
+
+<script>
+(function(){
+  var b=document.getElementById('burger'),n=document.getElementById('nav');
+  b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+  n.addEventListener('click',function(){n.classList.remove('open')});
+  var tabs=document.querySelectorAll('#tabs button'),items=document.querySelectorAll('.p');
+  function filter(f){
+    tabs.forEach(function(t){t.setAttribute('aria-pressed',t.dataset.f===f)});
+    items.forEach(function(p){p.hidden=!(f==='all'||p.dataset.c===f)});
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){filter(t.dataset.f)})});
+  document.querySelectorAll('[data-go]').forEach(function(c){c.addEventListener('click',function(){filter(c.dataset.go)})});
+  function wa(t){window.open('https://wa.me/201000000000?text='+encodeURIComponent(t),'_blank')}
+  document.getElementById('ask').addEventListener('click',function(){
+    wa('استفسار عن قطعة غيار\nنوع الماكينة: '+document.getElementById('type').value+'\nالقطعة: '+document.getElementById('part').value)});
+  document.getElementById('send').addEventListener('click',function(){
+    wa('الاسم: '+document.getElementById('nm').value+'\n'+document.getElementById('msg').value)});
+})();
+</script>
+</body>
+</html>
