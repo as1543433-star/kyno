@@ -9,25 +9,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#1b1f3b; --paper:#faf8f5; --card:#ffffff; --muted:#5d6180; --line:#d9d5cc;
-  --thread:#d7263d; --brass:#b98a12; --steel:#eceff4; --on-ink:#faf8f5;
+  --ink:#2a1a12; --paper:#fbf7f1; --card:#ffffff; --muted:#7a6558; --line:#e3d8cb;
+  --thread:#b4562a; --brass:#c98d4b; --steel:#f3ebe0; --on-ink:#fbf7f1;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--ink:#faf8f5;--paper:#14162b;--card:#1d2040;--muted:#a7abc9;--line:#34385f;--steel:#23274a;--on-ink:#14162b;--thread:#ff5468;--brass:#e0b43c}
+  :root:not([data-theme="light"]){--ink:#fbf7f1;--paper:#1c130e;--card:#2a1c14;--muted:#c2ab9a;--line:#4a3427;--steel:#33231a;--on-ink:#1c130e;--thread:#e08a56;--brass:#e0b070}
 }
-:root[data-theme="dark"]{--ink:#faf8f5;--paper:#14162b;--card:#1d2040;--muted:#a7abc9;--line:#34385f;--steel:#23274a;--on-ink:#14162b;--thread:#ff5468;--brass:#e0b43c}
+:root[data-theme="dark"]{--ink:#fbf7f1;--paper:#1c130e;--card:#2a1c14;--muted:#c2ab9a;--line:#4a3427;--steel:#33231a;--on-ink:#1c130e;--thread:#e08a56;--brass:#e0b070}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:'Cairo',Tahoma,Arial,sans-serif;line-height:1.7}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
 .stitch{border-top:2px dashed var(--thread);opacity:.7}
+/* header */
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;gap:24px;height:68px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px}
-.logo i{width:34px;height:34px;border-radius:50%;background:var(--thread);display:grid;place-items:center}
+.logo i{display:none;width:34px;height:34px;border-radius:50%;background:var(--thread);display:grid;place-items:center}
 .logo i:after{content:"";width:12px;height:12px;border-radius:50%;background:var(--paper)}
 nav{display:flex;gap:22px;margin-inline-start:auto;font-weight:600}
 nav a{color:var(--muted)} nav a:hover{color:var(--ink)}
@@ -35,6 +36,7 @@ nav a{color:var(--muted)} nav a:hover{color:var(--ink)}
 .btn.alt{background:transparent;color:var(--ink);border:2px solid var(--ink)}
 .btn:focus-visible,a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
 .burger{display:none;margin-inline-start:auto;background:none;border:1px solid var(--line);border-radius:10px;width:44px;height:44px;font-size:22px;color:var(--ink);cursor:pointer}
+/* hero */
 .hero{padding:64px 0 40px}
 .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
 .tag{display:inline-block;background:var(--steel);padding:4px 14px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
@@ -47,6 +49,7 @@ h1 span{display:block;color:var(--thread)}
 .art{position:relative;background:var(--ink);border-radius:28px;padding:30px;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
 .art svg{width:100%;height:auto;max-height:100%}
 .art .badge{position:absolute;top:18px;inset-inline-start:18px;background:var(--brass);color:#14162b;font-weight:800;padding:6px 14px;border-radius:999px;font-size:14px}
+/* sections */
 section{padding:64px 0}
 h2{font-size:clamp(26px,3.6vw,38px);margin:0 0 8px;font-weight:800}
 .sub{color:var(--muted);margin:0 0 32px}
@@ -68,19 +71,23 @@ h2{font-size:clamp(26px,3.6vw,38px);margin:0 0 8px;font-weight:800}
 .price{font-weight:800;font-size:20px}.price s{color:var(--muted);font-weight:400;font-size:14px;margin-inline-start:6px}
 .p .btn{padding:8px 16px;font-size:14px}
 .p[hidden]{display:none}
+/* parts finder */
 .finder{background:var(--ink);color:var(--on-ink);border-radius:28px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
 .finder h2{color:var(--on-ink)}.finder p{opacity:.8;margin:0}
 .form{display:grid;gap:12px}
 select,input{font:inherit;padding:14px 16px;border-radius:12px;border:0;background:var(--paper);color:var(--ink);width:100%}
+/* why */
 .why{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 .why div{padding:22px;border-radius:18px;border:2px dashed var(--line)}
 .why span{font-size:32px}.why h3{margin:8px 0 4px;font-size:18px}.why p{margin:0;color:var(--muted);font-size:15px}
+/* contact */
 .contact{display:grid;grid-template-columns:1fr 1fr;gap:28px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px}
 .box h3{margin:0 0 12px}.box p{margin:6px 0;color:var(--muted)}
 footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .wa{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);inset-inline-start:18px;width:56px;height:56px;border-radius:50%;background:#1fa855;color:#fff;display:grid;place-items:center;font-size:28px;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:30}
+/* responsive */
 @media (max-width:900px){
   .hero .wrap,.finder,.contact{grid-template-columns:1fr}
   .cats,.grid{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr 1fr}
@@ -95,12 +102,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .hero{padding-top:36px}.stats{gap:20px}.finder{padding:28px 22px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.logo .mark{height:46px;width:auto;display:block}
+.logo span{color:var(--ink);letter-spacing:.5px}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap bar">
-    <a class="logo" href="#top"><i></i>kyno</a>
+    <a class="logo" href="#top"><img class="mark" src="logo.png" alt=""><span>kyno</span></a>
     <button class="burger" id="burger" aria-label="القائمة" aria-expanded="false">☰</button>
     <nav id="nav">
       <a href="#cats">الأقسام</a><a href="#products">المنتجات</a><a href="#parts">قطع الغيار</a><a href="#why">ليه kyno</a><a href="#contact">تواصل معنا</a>
@@ -124,16 +133,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   </div>
   <div class="art" aria-hidden="true">
     <span class="badge">وصل حديثاً</span>
-    <svg viewBox="0 0 400 340" fill="none">
+    <svg viewBox="0 0 400 340" fill="none"><defs><linearGradient id="bz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6b177"/><stop offset=".5" stop-color="#b87333"/><stop offset="1" stop-color="#7a3e1c"/></linearGradient></defs>
       <rect x="40" y="270" width="320" height="20" rx="8" fill="#faf8f5" opacity=".15"/>
-      <path d="M60 270V150q0-50 60-50h190q40 0 40 40v30h-60v20h-70v90z" fill="#faf8f5"/>
-      <rect x="290" y="130" width="50" height="140" rx="10" fill="#d7263d"/>
-      <circle cx="315" cy="105" r="26" fill="#b98a12"/><circle cx="315" cy="105" r="10" fill="#1b1f3b"/>
-      <rect x="140" y="125" width="90" height="12" rx="6" fill="#1b1f3b" opacity=".25"/>
-      <rect x="103" y="215" width="150" height="55" rx="10" fill="#1b1f3b" opacity=".12"/>
-      <path d="M330 130v110" stroke="#1b1f3b" stroke-width="3"/>
+      <path d="M60 270V150q0-50 60-50h190q40 0 40 40v30h-60v20h-70v90z" fill="url(#bz)"/>
+      <rect x="290" y="130" width="50" height="140" rx="10" fill="#8a4b22"/>
+      <circle cx="315" cy="105" r="26" fill="#f0c995"/><circle cx="315" cy="105" r="10" fill="#2a1a12"/>
+      <rect x="140" y="125" width="90" height="12" rx="6" fill="#2a1a12" opacity=".25"/>
+      <rect x="103" y="215" width="150" height="55" rx="10" fill="#2a1a12" opacity=".12"/>
+      <path d="M330 130v110" stroke="#2a1a12" stroke-width="3"/>
       <path d="M300 160v100" stroke="#faf8f5" stroke-width="2" stroke-dasharray="5 6" opacity=".7"/>
-      <path d="M20 310h360" stroke="#d7263d" stroke-width="3" stroke-dasharray="10 8"/>
+      <path d="M20 310h360" stroke="#e6b177" stroke-width="3" stroke-dasharray="10 8"/>
     </svg>
   </div>
 </div></div>
