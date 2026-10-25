@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>kyno — تفاصيل المنتج</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2a1a12;--paper:#fbf7f1;--card:#fff;--line:#e3d8cb;--c:#b4562a;--muted:#7a6558}
+@media(prefers-color-scheme:dark){:root{--ink:#fbf7f1;--paper:#1c130e;--card:#2a1c14;--line:#4a3427;--c:#e08a56;--muted:#c2ab9a}}
+*{box-sizing:border-box}body{margin:0;font-family:Cairo,Tahoma,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7}
+.w{max-width:560px;margin:0 auto;padding:16px}a{color:var(--c);text-decoration:none;font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:12px}
+.im{background:var(--line);min-height:240px;display:grid;place-items:center;font-size:90px}.im img{width:100%;display:block}
+.b{padding:18px}h1{margin:0 0 6px;font-size:24px}.pr{font-size:26px;font-weight:800}.pr s{font-size:16px;color:var(--muted);font-weight:400;margin-inline-start:8px}
+.btn{display:block;text-align:center;background:var(--c);color:#fff;padding:14px;border-radius:999px;margin-top:16px;font-weight:800}.tag{color:#b3261e;font-weight:700}
+</style></head><body><div class="w"><a href="./">→ رجوع للموقع</a><div class="card" id="c"><div class="b">جاري التحميل...</div></div></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getFirestore,doc,getDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const db=getFirestore(initializeApp({apiKey:"AIzaSyAj_CDPvVX8712m7VvxrOGZcaRc7G9sWJA",authDomain:"kyn24-db6ce.firebaseapp.com",projectId:"kyn24-db6ce",appId:"1:581223868945:web:a42f572eff8a7d3ac79fb0"}));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const c=document.getElementById('c');
+try{const id=new URLSearchParams(location.search).get('id'),s=await getDoc(doc(db,'products',id||'x'));
+if(!s.exists())throw 0;const p=s.data();let wa='201000000000';
+try{const t=await getDoc(doc(db,'settings','store'));if(t.exists()&&t.data().whatsapp)wa=t.data().whatsapp}catch(e){}
+document.title='kyno — '+p.name;
+const msg=encodeURIComponent('عايز أطلب: '+p.name+'\n'+location.href);
+c.innerHTML=`<div class="im">${p.img?`<img src="${esc(p.img)}" alt="${esc(p.name)}">`:'🧵'}</div><div class="b"><h1>${esc(p.name)}</h1><p>${esc(p.desc)}</p><div class="pr">${esc(p.price)} ج${p.oldPrice?`<s>${esc(p.oldPrice)}</s>`:''}</div>${p.stock===false?'<p class="tag">نفد حالياً</p>':''}<a class="btn" href="https://wa.me/${wa}?text=${msg}">اطلب على واتساب</a></div>`
+}catch(e){c.innerHTML='<div class="b">المنتج غير موجود.</div>'}
+</script></body></html>
