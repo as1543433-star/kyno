@@ -25,7 +25,10 @@ label{display:block;font-size:14px;color:var(--muted);margin-top:8px}[hidden]{di
 <div class="row"><div><label>السعر (ج)</label><input id="pp" inputmode="numeric"></div><div><label>السعر قبل الخصم (اختياري = عرض)</label><input id="po" inputmode="numeric"></div></div>
 <label>وصف قصير</label><input id="pd"><label>صورة المنتج</label><input id="pf" type="file" accept="image/*"><img id="pv" alt="" style="max-width:120px;margin-top:8px;border-radius:10px" hidden>
 <p><button id="sp">حفظ المنتج</button> <button class="g" id="cp">جديد</button></p></div><div class="card" id="pl"></div></section>
-<section id="st" hidden><div class="card"><h3>بيانات المحل</h3><label>رقم الواتساب (بصيغة دولية: 201012345678)</label><input id="sw"><label>رقم التليفون للعرض</label><input id="sph"><label>العنوان</label><input id="sa"><label>مواعيد العمل</label><input id="sh"><p><button id="ss">حفظ</button></p></div></section>
+<section id="st" hidden><div class="card"><h3>بيانات المحل</h3><label>رقم الواتساب (بصيغة دولية: 201012345678)</label><input id="sw"><label>رقم التليفون للعرض</label><input id="sph"><label>العنوان</label><input id="sa"><label>مواعيد العمل</label><input id="sh"><h3 style="margin-top:22px">قالب «وصل حديثاً» (أول الصفحة)</h3>
+<label>نص الشارة</label><input id="sb" placeholder="وصل حديثاً"><label>الشارة</label><select id="sbo"><option value="1">إظهار</option><option value="0">إخفاء</option></select>
+<label>صورة القالب (اختياري، بتحل محل الرسمة)</label><input id="sf" type="file" accept="image/*"><img id="sv" alt="" style="max-width:160px;margin-top:8px;border-radius:10px" hidden> <button class="g" id="sr" type="button">حذف الصورة</button>
+<p><button id="ss">حفظ</button></p></div></section>
 <section id="iq" hidden><div class="card" id="il"></div></section></div></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -35,12 +38,14 @@ const app=initializeApp({apiKey:"AIzaSyAj_CDPvVX8712m7VvxrOGZcaRc7G9sWJA",authDo
 const auth=getAuth(app),db=getFirestore(app),$=i=>document.getElementById(i);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const say=t=>{$('msg').textContent=t;setTimeout(()=>$('msg').textContent='',3500)};
-let cur=[],img='';
+let cur=[],img='',hero='';
 $('in').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('em').value.trim(),$('pw').value)}catch(e){$('err').textContent='الإيميل أو الباسورد غلط'}};
 $('out').onclick=()=>signOut(auth);
 onAuthStateChanged(auth,u=>{$('lg').hidden=!!u;$('ap').hidden=!u;if(u){loadP();loadS();loadI()}});
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.className=x==b?'on':'g');['pr','st','iq'].forEach(s=>$(s).hidden=s!=b.dataset.t)});
 function shrink(f){return new Promise(r=>{const i=new Image;i.onload=()=>{const k=Math.min(1,640/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.72))};i.src=URL.createObjectURL(f)})}
+$('sf').onchange=async e=>{if(e.target.files[0]){hero=await shrink(e.target.files[0]);$('sv').src=hero;$('sv').hidden=false}};
+$('sr').onclick=()=>{hero='';$('sv').hidden=true;$('sf').value=''};
 $('pf').onchange=async e=>{if(e.target.files[0]){img=await shrink(e.target.files[0]);$('pv').src=img;$('pv').hidden=false}};
 function reset(){['pid','pn','pp','po','pd','pf'].forEach(i=>$(i).value='');img='';$('pv').hidden=true;$('ps').value='1';$('ft').textContent='إضافة منتج'}
 $('cp').onclick=reset;
@@ -51,8 +56,8 @@ async function loadP(){const s=await getDocs(collection(db,'products'));cur=s.do
 $('pl').innerHTML=cur.length?cur.map(p=>`<div class="it">${p.img?`<img src="${esc(p.img)}" alt="">`:'<img alt="">'}<div><b>${esc(p.name)}</b><br><small>${esc(p.price)} ج${p.oldPrice?' (قبل: '+esc(p.oldPrice)+')':''} · ${p.stock===false?'نفد':'متاح'}</small></div><button class="g" data-e="${p.id}">تعديل</button><button class="r" data-d="${p.id}">حذف</button></div>`).join(''):'مفيش منتجات لسه.'}
 $('pl').onclick=async e=>{const d=e.target.dataset.d,x=e.target.dataset.e;if(d&&confirm('حذف المنتج؟')){await deleteDoc(doc(db,'products',d));loadP()}
 if(x){const p=cur.find(q=>q.id==x);$('pid').value=x;$('pn').value=p.name;$('pc').value=p.cat;$('ps').value=p.stock===false?'0':'1';$('pp').value=p.price;$('po').value=p.oldPrice||'';$('pd').value=p.desc||'';img='';$('ft').textContent='تعديل منتج';scrollTo(0,0)}};
-async function loadS(){const s=await getDoc(doc(db,'settings','store'));if(s.exists()){const d=s.data();$('sw').value=d.whatsapp||'';$('sph').value=d.phone||'';$('sa').value=d.address||'';$('sh').value=d.hours||''}}
-$('ss').onclick=async()=>{try{await setDoc(doc(db,'settings','store'),{whatsapp:$('sw').value.replace(/\D/g,''),phone:$('sph').value.trim(),address:$('sa').value.trim(),hours:$('sh').value.trim()});say('تم الحفظ ✅')}catch(e){say('فشل الحفظ')}};
+async function loadS(){const s=await getDoc(doc(db,'settings','store'));if(s.exists()){const d=s.data();$('sw').value=d.whatsapp||'';$('sph').value=d.phone||'';$('sa').value=d.address||'';$('sh').value=d.hours||'';$('sb').value=d.badge||'';$('sbo').value=d.badgeOn===false?'0':'1';hero=d.heroImg||'';if(hero){$('sv').src=hero;$('sv').hidden=false}}}
+$('ss').onclick=async()=>{try{await setDoc(doc(db,'settings','store'),{whatsapp:$('sw').value.replace(/\D/g,''),phone:$('sph').value.trim(),address:$('sa').value.trim(),hours:$('sh').value.trim(),badge:$('sb').value.trim(),badgeOn:$('sbo').value=='1',heroImg:hero});say('تم الحفظ ✅')}catch(e){say('فشل الحفظ')}};
 async function loadI(){const s=await getDocs(collection(db,'inquiries'));const a=s.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>(y.ts?.seconds||0)-(x.ts?.seconds||0));
 $('il').innerHTML=a.length?a.map(i=>`<div class="it"><div><b>${esc(i.name||i.type||'زائر')}</b><br>${esc(i.part||i.msg)}<br><small>${i.ts?i.ts.toDate().toLocaleString('ar-EG'):''}</small></div><button class="r" data-x="${i.id}">حذف</button></div>`).join(''):'مفيش استفسارات.'}
 $('il').onclick=async e=>{if(e.target.dataset.x){await deleteDoc(doc(db,'inquiries',e.target.dataset.x));loadI()}};
