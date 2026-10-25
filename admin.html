@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>لوحة تحكم kyno</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2a1a12;--paper:#fbf7f1;--card:#fff;--line:#e3d8cb;--c:#b4562a;--muted:#7a6558}
+@media(prefers-color-scheme:dark){:root{--ink:#fbf7f1;--paper:#1c130e;--card:#2a1c14;--line:#4a3427;--c:#e08a56;--muted:#c2ab9a}}
+*{box-sizing:border-box}body{margin:0;font-family:Cairo,Tahoma,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+.w{max-width:860px;margin:0 auto;padding:16px}header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+input,select,textarea{font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);width:100%}
+button{font:inherit;cursor:pointer;background:var(--c);color:#fff;border:0;font-weight:700;padding:10px 18px;border-radius:10px}
+button.g{background:var(--card);color:var(--ink);border:1px solid var(--line)}button.on{background:var(--ink);color:var(--paper)}button.r{background:#b3261e}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.it{display:flex;gap:12px;align-items:center;border-top:1px dashed var(--line);padding:10px 0}.it img{width:56px;height:56px;object-fit:cover;border-radius:10px;background:var(--line)}.it div{flex:1}.it small{color:var(--muted)}
+label{display:block;font-size:14px;color:var(--muted);margin-top:8px}[hidden]{display:none!important}#msg{color:var(--c);font-weight:700}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+</style></head><body>
+<div id="lg" class="w" style="max-width:380px;margin-top:60px"><div class="card"><h2>دخول لوحة kyno</h2>
+<label>الإيميل</label><input id="em" type="email" autocomplete="username"><label>الباسورد</label><input id="pw" type="password" autocomplete="current-password">
+<p id="err" style="color:#b3261e"></p><button id="in">دخول</button></div></div>
+<div id="ap" hidden><header><span>لوحة تحكم kyno</span><button class="g" id="out">خروج</button></header>
+<div class="w"><div class="tabs"><button data-t="pr" class="on">المنتجات</button><button data-t="st" class="g">بيانات المحل</button><button data-t="iq" class="g">الاستفسارات</button></div>
+<p id="msg"></p>
+<section id="pr"><div class="card"><h3 id="ft">إضافة منتج</h3><input type="hidden" id="pid">
+<label>اسم المنتج</label><input id="pn"><div class="row"><div><label>القسم</label><select id="pc"><option value="home">ماكينات منزلية</option><option value="industrial">ماكينات صناعية</option><option value="parts">قطع غيار</option></select></div><div><label>الحالة</label><select id="ps"><option value="1">متاح</option><option value="0">نفد</option></select></div></div>
+<div class="row"><div><label>السعر (ج)</label><input id="pp" inputmode="numeric"></div><div><label>السعر قبل الخصم (اختياري = عرض)</label><input id="po" inputmode="numeric"></div></div>
+<label>وصف قصير</label><input id="pd"><label>صورة المنتج</label><input id="pf" type="file" accept="image/*"><img id="pv" alt="" style="max-width:120px;margin-top:8px;border-radius:10px" hidden>
+<p><button id="sp">حفظ المنتج</button> <button class="g" id="cp">جديد</button></p></div><div class="card" id="pl"></div></section>
+<section id="st" hidden><div class="card"><h3>بيانات المحل</h3><label>رقم الواتساب (بصيغة دولية: 201012345678)</label><input id="sw"><label>رقم التليفون للعرض</label><input id="sph"><label>العنوان</label><input id="sa"><label>مواعيد العمل</label><input id="sh"><p><button id="ss">حفظ</button></p></div></section>
+<section id="iq" hidden><div class="card" id="il"></div></section></div></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,collection,getDocs,doc,getDoc,setDoc,deleteDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyAj_CDPvVX8712m7VvxrOGZcaRc7G9sWJA",authDomain:"kyn24-db6ce.firebaseapp.com",projectId:"kyn24-db6ce",appId:"1:581223868945:web:a42f572eff8a7d3ac79fb0"});
+const auth=getAuth(app),db=getFirestore(app),$=i=>document.getElementById(i);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const say=t=>{$('msg').textContent=t;setTimeout(()=>$('msg').textContent='',3500)};
+let cur=[],img='';
+$('in').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('em').value.trim(),$('pw').value)}catch(e){$('err').textContent='الإيميل أو الباسورد غلط'}};
+$('out').onclick=()=>signOut(auth);
+onAuthStateChanged(auth,u=>{$('lg').hidden=!!u;$('ap').hidden=!u;if(u){loadP();loadS();loadI()}});
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.className=x==b?'on':'g');['pr','st','iq'].forEach(s=>$(s).hidden=s!=b.dataset.t)});
+function shrink(f){return new Promise(r=>{const i=new Image;i.onload=()=>{const k=Math.min(1,640/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.72))};i.src=URL.createObjectURL(f)})}
+$('pf').onchange=async e=>{if(e.target.files[0]){img=await shrink(e.target.files[0]);$('pv').src=img;$('pv').hidden=false}};
+function reset(){['pid','pn','pp','po','pd','pf'].forEach(i=>$(i).value='');img='';$('pv').hidden=true;$('ps').value='1';$('ft').textContent='إضافة منتج'}
+$('cp').onclick=reset;
+$('sp').onclick=async()=>{if(!$('pn').value.trim()||!$('pp').value.trim())return say('اكتب الاسم والسعر');
+const id=$('pid').value||doc(collection(db,'products')).id,old=cur.find(p=>p.id==id)||{};
+try{await setDoc(doc(db,'products',id),{name:$('pn').value.trim(),cat:$('pc').value,stock:$('ps').value=='1',price:$('pp').value.trim(),oldPrice:$('po').value.trim(),desc:$('pd').value.trim(),img:img||old.img||'',order:old.order||-Date.now()});say('تم الحفظ ✅');reset();loadP()}catch(e){say('فشل الحفظ: تأكد من قواعد الأمان والإيميل')}};
+async function loadP(){const s=await getDocs(collection(db,'products'));cur=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.order||0)-(b.order||0));
+$('pl').innerHTML=cur.length?cur.map(p=>`<div class="it">${p.img?`<img src="${esc(p.img)}" alt="">`:'<img alt="">'}<div><b>${esc(p.name)}</b><br><small>${esc(p.price)} ج${p.oldPrice?' (قبل: '+esc(p.oldPrice)+')':''} · ${p.stock===false?'نفد':'متاح'}</small></div><button class="g" data-e="${p.id}">تعديل</button><button class="r" data-d="${p.id}">حذف</button></div>`).join(''):'مفيش منتجات لسه.'}
+$('pl').onclick=async e=>{const d=e.target.dataset.d,x=e.target.dataset.e;if(d&&confirm('حذف المنتج؟')){await deleteDoc(doc(db,'products',d));loadP()}
+if(x){const p=cur.find(q=>q.id==x);$('pid').value=x;$('pn').value=p.name;$('pc').value=p.cat;$('ps').value=p.stock===false?'0':'1';$('pp').value=p.price;$('po').value=p.oldPrice||'';$('pd').value=p.desc||'';img='';$('ft').textContent='تعديل منتج';scrollTo(0,0)}};
+async function loadS(){const s=await getDoc(doc(db,'settings','store'));if(s.exists()){const d=s.data();$('sw').value=d.whatsapp||'';$('sph').value=d.phone||'';$('sa').value=d.address||'';$('sh').value=d.hours||''}}
+$('ss').onclick=async()=>{try{await setDoc(doc(db,'settings','store'),{whatsapp:$('sw').value.replace(/\D/g,''),phone:$('sph').value.trim(),address:$('sa').value.trim(),hours:$('sh').value.trim()});say('تم الحفظ ✅')}catch(e){say('فشل الحفظ')}};
+async function loadI(){const s=await getDocs(collection(db,'inquiries'));const a=s.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>(y.ts?.seconds||0)-(x.ts?.seconds||0));
+$('il').innerHTML=a.length?a.map(i=>`<div class="it"><div><b>${esc(i.name||i.type||'زائر')}</b><br>${esc(i.part||i.msg)}<br><small>${i.ts?i.ts.toDate().toLocaleString('ar-EG'):''}</small></div><button class="r" data-x="${i.id}">حذف</button></div>`).join(''):'مفيش استفسارات.'}
+$('il').onclick=async e=>{if(e.target.dataset.x){await deleteDoc(doc(db,'inquiries',e.target.dataset.x));loadI()}};
+</script></body></html>
